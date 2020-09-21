@@ -15,6 +15,11 @@ use std::panic::{UnwindSafe, RefUnwindSafe};
 #[educe(Clone, Copy, Eq, Ord, PartialEq, PartialOrd, Hash, Default, Debug)]
 pub struct PhantomType<T: ?Sized>(PhantomData<T>);
 
+impl<T: ?Sized> PhantomType<T> {
+    /// Creates `PhantomType` instance.
+    pub const fn new() -> Self { PhantomType(PhantomData) }
+}
+
 unsafe impl<T: ?Sized> Send for PhantomType<T> { }
 unsafe impl<T: ?Sized> Sync for PhantomType<T> { }
 impl<T: ?Sized> Unpin for PhantomType<T> { }
