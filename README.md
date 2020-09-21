@@ -3,4 +3,4 @@
 # phantom-type
 
 A `PhantomData` analog which prevents "parameter is never used" error,
-but does not produce any restrictions in contrast with `PhantomData`."
+but does not produce any restrictions in contrast with `PhantomData`.

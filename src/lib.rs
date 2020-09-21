@@ -8,8 +8,6 @@ use core::marker::PhantomData;
 #[cfg(feature="std")]
 use std::panic::{UnwindSafe, RefUnwindSafe};
 
-pub use educe::Educe;
-
 #[derive(Educe)]
 #[educe(Clone, Copy, Eq, Ord, PartialEq, PartialOrd, Hash, Default, Debug)]
 pub struct PhantomType<T: ?Sized>(PhantomData<T>);
