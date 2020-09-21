@@ -5,9 +5,10 @@
 extern crate core;
 
 use core::marker::PhantomData;
-use educe::Educe;
 #[cfg(feature="std")]
 use std::panic::{UnwindSafe, RefUnwindSafe};
+
+pub use educe::Educe;
 
 #[derive(Educe)]
 #[educe(Clone, Copy, Eq, Ord, PartialEq, PartialOrd, Hash, Default, Debug)]
