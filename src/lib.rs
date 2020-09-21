@@ -1,6 +1,11 @@
 #![deny(warnings)]
 #![cfg_attr(not(feature="std"), no_std)]
 
+//! **Crate features**
+//!
+//! * `"std"`
+//! Enabled by default. Disable to make the library `#![no_std]`.
+
 #[cfg(feature="std")]
 extern crate core;
 
