@@ -1,0 +1,29 @@
+[package]
+edition = "2018"
+name = "phantom-type"
+version = "0.1.0"
+authors = ["warlock <internalmike@gmail.com>"]
+description = "PhantomData analog which does not produce any restrictions."
+readme = "README.md"
+documentation = "https://docs.rs/phantom-type/"
+keywords = ["PhantomData", "Send", "Sync", "Unpin", "restrictions"]
+categories = ["rust-patterns", "no-std"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/A1-Triard/phantom-type"
+
+[features]
+default = ["std"]
+std = []
+
+[dependencies]
+educe = { version = "0.4.13", default-features = false, features = [
+    "Debug",
+    "Default",
+    "Hash",
+    "Clone",
+    "Copy",
+    "Eq",
+    "Ord",
+    "PartialEq",
+    "PartialOrd",
+] }
