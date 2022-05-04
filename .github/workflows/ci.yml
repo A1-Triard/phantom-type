@@ -20,6 +20,19 @@ jobs:
         rust: ["1.60", stable, beta, nightly]
         features: ["", "--features=std"]
         triple: [""]
+        exclude:
+        - os: ubuntu-latest
+          rust: nightly
+          features: ""
+          triple: ""
+        - os: windows-latest
+          rust: nightly
+          features: ""
+          triple: ""
+        - os: macOS-latest
+          rust: nightly
+          features: ""
+          triple: ""
         include:
         - os: ubuntu-latest
           rust: nightly
