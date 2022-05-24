@@ -15,5 +15,5 @@ default = ["std"]
 std = ["phantom-type/std"]
 
 [dependencies]
-phantom-type = { version = "0.3.0", default-features = false }
+phantom-type = { version = "*", default-features = false }
 ```
