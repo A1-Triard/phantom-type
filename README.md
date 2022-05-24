@@ -1,3 +1,5 @@
+![maintenance: passively maintained](https://img.shields.io/badge/maintenance-passively--maintained-yellowgreen.svg)
+
 # phantom-type
 
 A `PhantomData` analog which prevents "parameter is never used" error,
