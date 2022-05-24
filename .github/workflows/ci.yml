@@ -12,91 +12,47 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
+  main:
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macOS-latest]
         rust: ["1.60", stable, beta, nightly]
         features: ["", "--features=std"]
-        triple: [""]
-        exclude:
-        - os: ubuntu-latest
-          rust: nightly
-          features: ""
-          triple: ""
-        - os: windows-latest
-          rust: nightly
-          features: ""
-          triple: ""
-        - os: macOS-latest
-          rust: nightly
-          features: ""
-          triple: ""
-        include:
-        - os: ubuntu-latest
-          rust: nightly
-          features: ""
-          triple: x86_64-unknown-linux-gnu
-        - os: windows-latest
-          rust: nightly
-          features: ""
-          triple: x86_64-pc-windows-msvc
-        - os: macOS-latest
-          rust: nightly
-          features: ""
-          triple: x86_64-apple-darwin
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions-rs/toolchain@v1
       with:
         toolchain: ${{ matrix.rust }}
         override: true
+    - run: "rustup component add clippy"
     - uses: actions/checkout@v2
-    - name: build
-      uses: actions-rs/cargo@v1
+    - run: "cargo build --verbose --no-default-features ${{ matrix.features }}"
+    - run: "cargo test --verbose --tests --no-default-features ${{ matrix.features }}"
+    - run: "cargo test --verbose --doc --no-default-features ${{ matrix.features }}"
+    - run: "cargo doc --verbose --no-default-features ${{ matrix.features }}"
+    - run: "cargo build --verbose --release --no-default-features ${{ matrix.features }}"
+    - run: "cargo outdated --verbose --aggresssive --root-deps-only --exit-code 1 ${{ matrix.features }}"
+    - run: "cargo clippy --verbose --no-default-features ${{ matrix.features }}"
+  ensure_no_std:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - os: ubuntu-latest
+          triple: x86_64-unknown-linux-gnu
+        - os: windows-latest
+          triple: x86_64-pc-windows-msvc
+        - os: macOS-latest
+          triple: x86_64-apple-darwin
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions-rs/toolchain@v1
       with:
-        command: build
-        args: "--verbose --no-default-features ${{ matrix.features }}"
-    - name: test --tests
-      uses: actions-rs/cargo@v1
-      with:
-        command: test
-        args: "--verbose --tests --no-default-features ${{ matrix.features }}"
-    - name: test --doc
-      uses: actions-rs/cargo@v1
-      with:
-        command: test
-        args: "--verbose --doc --no-default-features ${{ matrix.features }}"
-    - name: doc
-      uses: actions-rs/cargo@v1
-      with:
-        command: doc
-        args: "--verbose --no-default-features ${{ matrix.features }}"
-    - name: build --release
-      uses: actions-rs/cargo@v1
-      with:
-        command: build
-        args: "--verbose --release --no-default-features ${{ matrix.features }}"
-    - name: rustup component add rust-src
-      run: "rustup component add rust-src --toolchain nightly-${{ matrix.triple }}"
-      if: "${{ matrix.triple != '' }}"
-    - name: ensure_no_std build
-      run: "cargo +nightly build --verbose -Z build-std=core,panic_abort --target ${{ matrix.triple }} --release"
+        toolchain: nightly
+        override: true
+    - uses: actions/checkout@v2
+    - run: "rustup component add rust-src --toolchain nightly-${{ matrix.triple }}"
+    - run: "cargo +nightly build --verbose -Z build-std=core,panic_abort --target ${{ matrix.triple }} --release"
       working-directory: ensure_no_std
-      if: "${{ matrix.triple != '' }}"
-    - name: ensure_no_std run
-      run: "./ensure_no_std/target/${{ matrix.triple }}/release/ensure_no_std"
-      if: "${{ matrix.triple != '' }}"
-    - name: outdated
-      uses: actions-rs/cargo@v1
-      with:
-        command: outdated
-        args: "--verbose --aggresssive --root-deps-only --exit-code 1 ${{ matrix.features }}"
-    - name: rustup component add clippy
-      run: "rustup component add clippy"
-    - name: clippy
-      uses: actions-rs/cargo@v1
-      with:
-        command: clippy
-        args: "--verbose --no-default-features ${{ matrix.features }}"
+    - run: "./ensure_no_std/target/${{ matrix.triple }}/release/ensure_no_std"
