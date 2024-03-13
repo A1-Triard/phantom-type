@@ -18,7 +18,7 @@ use educe::Educe;
 #[cfg(feature="std")]
 use std::panic::{UnwindSafe, RefUnwindSafe};
 
-/// A [`PhantomData`](core::marker::PhantomData) analog which prevents "parameter is never used" error,
+/// A [`PhantomData`] analog which prevents "parameter is never used" error,
 /// but does not produce any restrictions in contrast with `PhantomData`.
 #[derive(Educe)]
 #[educe(Clone, Copy, Eq, Ord, PartialEq, PartialOrd, Hash, Default, Debug)]

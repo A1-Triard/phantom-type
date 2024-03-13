@@ -1,8 +1,8 @@
 [package]
 edition = "2021"
 name = "phantom-type"
-version = "0.4.2"
-rust-version = "1.60"
+version = "0.5.0"
+rust-version = "1.70"
 authors = ["warlock <internalmike@gmail.com>"]
 description = "A `PhantomData` analog which prevents \"parameter is never used\" error, but does not produce any restrictions in contrast with `PhantomData`."
 readme = "README.md"
@@ -17,7 +17,7 @@ default = ["std"]
 std = []
 
 [dependencies]
-educe = "0.4.13"
+educe = "0.5.11"
 
 [badges]
 maintenance = { status = "passively-maintained" }
