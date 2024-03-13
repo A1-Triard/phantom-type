@@ -11,12 +11,6 @@ panic = "abort"
 panic = "abort"
 
 [dependencies]
-educe = "0.4.19"
-libc_alloc = "1.0.3"
+educe = "0.5.11"
+exit-no-std = "0.2.0"
 phantom-type = { path = "..", default-features = false }
-
-[target.'cfg(not(windows))'.dependencies]
-libc = { version = "0.2", default-features = false }
-
-[target.'cfg(windows)'.dependencies]
-winapi = { version = "0.3.9", features = ["processthreadsapi"] }

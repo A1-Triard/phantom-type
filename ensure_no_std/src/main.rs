@@ -1,44 +1,28 @@
-#![feature(default_alloc_error_handler)]
 #![feature(start)]
 
 #![deny(warnings)]
 
 #![no_std]
 
-use core::alloc::Layout;
-use core::panic::PanicInfo;
-use educe::Educe;
-use phantom_type::*;
-#[cfg(not(windows))]
-use libc::exit;
-use libc_alloc::LibcAlloc;
-#[cfg(windows)]
-use winapi::shared::minwindef::UINT;
-#[cfg(windows)]
-use winapi::um::processthreadsapi::ExitProcess;
-
 #[cfg(windows)]
 #[link(name="msvcrt")]
 extern { }
 
-#[global_allocator]
-static ALLOCATOR: LibcAlloc = LibcAlloc;
+mod no_std {
+    use core::panic::PanicInfo;
+    use exit_no_std::exit;
 
-#[cfg(windows)]
-unsafe fn exit(code: UINT) -> ! {
-    ExitProcess(code);
-    loop { }
+    #[panic_handler]
+    fn panic(_info: &PanicInfo) -> ! {
+        exit(99)
+    }
+
+    #[no_mangle]
+    extern fn rust_eh_personality() { }
 }
 
-#[panic_handler]
-pub extern fn panic(_info: &PanicInfo) -> ! {
-    unsafe { exit(99) }
-}
-
-#[no_mangle]
-pub fn rust_oom(_layout: Layout) -> ! {
-    unsafe { exit(98) }
-}
+use educe::Educe;
+use phantom_type::*;
 
 struct NonClonable;
 
