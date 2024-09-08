@@ -1,7 +1,7 @@
 [package]
 edition = "2021"
 name = "phantom-type"
-version = "0.5.0"
+version = "0.5.1"
 rust-version = "1.70"
 authors = ["warlock <internalmike@gmail.com>"]
 description = "A `PhantomData` analog which prevents \"parameter is never used\" error, but does not produce any restrictions in contrast with `PhantomData`."
@@ -17,7 +17,7 @@ default = ["std"]
 std = []
 
 [dependencies]
-educe = "0.5.11"
+educe = "0.6.0"
 
 [badges]
 maintenance = { status = "passively-maintained" }
