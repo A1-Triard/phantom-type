@@ -5,10 +5,8 @@
 
 #![cfg_attr(not(feature="std"), no_std)]
 
-//! **Crate features**
-//!
-//! * `"std"`
-//! Enabled by default. Disable to make the library `#![no_std]`.
+//! ## Feature flags
+#![doc=document_features::document_features!()]
 
 #[cfg(feature="std")]
 extern crate core;
